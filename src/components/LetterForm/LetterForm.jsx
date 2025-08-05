@@ -1,55 +1,76 @@
-// // src/components/PokemonForm/PokemonForm.jsx
+import { useState } from 'react';
+import { useNavigate } from 'react-router';
 
-// import { useState } from 'react';
-// import { useNavigate } from 'react-router';
+const initialState = {
+  mailboxId: '',
+  recipient: '',
+  message: '',
+};
 
-// const initialState = {
-//   Boxholder: 0,
-//   BoxSize: 0,
-// };
+const LetterForm = ({ mailboxes, addLetter }) => {
+  const [formData, setFormData] = useState(initialState);
+  const navigate = useNavigate();
 
-// const MailboxForm = (props) => {
-//   const [mailboxes, setMailboxes] = useState(initialState);
-//   const navigate = useNavigate()
+  const handleChange = ({ target }) => {
+    setFormData({ ...formData, [target.name]: target.value });
+  };
 
-//   const handleSubmit = (evt) => {
-//     evt.preventDefault();
-//     props.addBox(mailboxes);
-//     setMailboxes(initialState);
-//      navigate('/mailboxes');
-//   };
+  const handleSubmit = (evt) => {
+    evt.preventDefault();
+    addLetter({
+      mailboxId: Number(formData.mailboxId),
+      recipient: formData.recipient,
+      message: formData.message,
+    });
+    setFormData(initialState);
+     navigate(`/mailboxes/${formData.mailboxId}`);
+  };
 
-//   const handleChange = ({ target }) => {
-//     setMailboxes({ ...mailboxes, [target.name]: target.value });
-//   };
+  return (
+    <main>
+      <h1>New Letter</h1>
+      <form onSubmit={handleSubmit}>
 
-//   return (
-//     <main>
-//       <h2>New Mailbox</h2>
-//       <form onSubmit={handleSubmit}>
+        <label htmlFor="mailboxId">Select a Mailbox</label>
+        <select
+          id="mailboxId"
+          name="mailboxId"
+          value={formData.mailboxId}
+          onChange={handleChange}
+          required
+        >
+         <option value="">Select mailbox</option>
+          {mailboxes.map((mailbox) => (
+    <option key={mailbox._id} value={mailbox._id}>
+          {mailbox.boxOwner}
+    </option>
+))}
 
-//         <label htmlFor="Boxholder">Boxholder:</label>
-//         <input
-//           type="text"
-//           id="Boxholder"
-//           name="Boxholder"
-//           value={mailboxes.Boxholder}
-//           onChange={handleChange}
-//         />
+    </select>
 
-//         <label htmlFor="BoxSize">BoxSize:</label>
-//         <input
-//           type="number"
-//           id="BoxSize"
-//           name="BoxSize"
-//           value={mailboxes.BoxSize}
-//           onChange={handleChange}
-//         />
-        
-//         <button type="submit">Submit</button>
-//       </form>
-//     </main>
-//   );
-// };
+        <label htmlFor="recipient">Recipient Name:</label>
+        <input
+          type="text"
+          id="recipient"
+          name="recipient"
+          value={formData.recipient}
+          onChange={handleChange}
+          required
+        />
 
-// export default MailboxForm;
+        <label htmlFor="message">Message:</label>
+        <textarea
+          id="message"
+          name="message"
+          value={formData.message}
+          onChange={handleChange}
+          required
+        />
+
+        <button type="submit">Send Letter</button>
+      </form>
+    </main>
+  );
+};
+
+export default LetterForm;

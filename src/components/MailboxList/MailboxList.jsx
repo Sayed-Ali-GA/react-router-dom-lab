@@ -1,19 +1,15 @@
 import { Link } from "react-router";
 
 const MailboxList = (props) => {
-
   return (
     <>
       <h2>Mailbox List</h2>
       <ul>
-        {props.mailboxes.map((currentMailbox) => (
-
-          <li key={currentMailbox.name}>
-
-            <Link to={`/mailboxes/${currentMailbox._id}`}>
-                {currentMailbox.name}
+        {props.mailboxes.map((mailbox) => (
+          <li key={mailbox._id}>
+            <Link to={`/mailboxes/${mailbox._id}`}>
+              {mailbox.boxOwner}
             </Link>
-
           </li>
         ))}
       </ul>
@@ -21,10 +17,5 @@ const MailboxList = (props) => {
   );
 };
 
+
 export default MailboxList;
-
-
-
-
-
-

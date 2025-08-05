@@ -18,7 +18,7 @@ const NavBar = () => {
         </li>
 
         <li>
-           <Link to="/new-LetterForm">New Letter</Link> 
+           <Link to="/new-letter">New Letter</Link> 
         </li>
 
       </ul>
